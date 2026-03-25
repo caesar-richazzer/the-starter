@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>Login | Sokoni Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FCFBF9;
+            --primary-green: #1F4E3D;
+            --border-light: #E2E8F0;
+            --text-main: #1A202C;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--text-main);
+        }
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-light);
+        }
+        .auth-card h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        /* Automatically style Django's form inputs */
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover { background: #15382b; }
+        .auth-links {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .auth-links a { color: var(--primary-green); text-decoration: none; font-weight: 500; }
+        .auth-links a:hover { text-decoration: underline; }
+        .errorlist { color: #dc3545; list-style: none; padding: 0; font-size: 0.85rem; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Login to Sokoni</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">Login</button>
+        </form>
+        
+        <div class="auth-links">
+            <span>Don't have an account? <a href="{% url 'register' %}">Register here</a></span>
+            <a href="#">Forgot password?</a>
+            <a href="{% url 'home' %}" style="color: #4A5568; margin-top: 10px;">← Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>
