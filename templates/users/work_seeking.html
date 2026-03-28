@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .work-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+    
+    .request-glass-row {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(40px);
+        border: 2px solid white;
+        border-radius: 30px;
+        padding: 35px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.3s;
+    }
+    .request-glass-row:hover { background: rgba(255, 255, 255, 0.5); transform: scale(1.02); }
+
+    .request-info { flex: 1; margin-right: 40px; }
+    .request-title { font-size: 1.4rem; color: #1e3a8a; font-weight: 700; margin-bottom: 10px; }
+    .request-meta { font-size: 0.85rem; color: #64748b; display: flex; gap: 20px; }
+
+    .btn-chrome-action {
+        background: linear-gradient(180deg, #ffffff 0%, #dbeafe 100%);
+        color: #1e40af; padding: 15px 35px; border-radius: 100px;
+        font-weight: 800; border: 1px solid white; text-decoration: none;
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+    }
+</style>
+
+<div class="work-container">
+    <div style="margin-bottom: 50px;">
+        <h1 style="font-family: 'Merriweather', serif; font-size: 2.8rem; color: #1e3a8a;">Work Seeking</h1>
+        <p style="color: #64748b;">Explore projects posted by clients and send your proposals.</p>
+    </div>
+
+    <!-- MOCKUP REQUEST 1 -->
+    <div class="request-glass-row">
+        <div class="request-info">
+            <div class="request-title">Looking for a Tax Expert for Annual Filing</div>
+            <p style="color: #475569; margin-bottom: 15px;">I need someone to audit my SME accounts and file TRA returns for the 2023 financial year.</p>
+            <div class="request-meta">
+                <span>Budget: 200k - 500k TZS</span>
+                <span>Posted: 2 hours ago</span>
+            </div>
+        </div>
+        <a href="#" class="btn-chrome-action">Apply Now</a>
+    </div>
+
+    <!-- MOCKUP REQUEST 2 -->
+    <div class="request-glass-row">
+        <div class="request-info">
+            <div class="request-title">Brand Identity for Construction Company</div>
+            <p style="color: #475569; margin-bottom: 15px;">Need a professional logo, business cards, and a company profile for a new site in Kigamboni.</p>
+            <div class="request-meta">
+                <span>Budget: 150k TZS</span>
+                <span>Posted: 5 hours ago</span>
+            </div>
+        </div>
+        <a href="#" class="btn-chrome-action">Apply Now</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,10 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
+# 1. USER FIRST
+class User(AbstractUser):
+    is_freelancer = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+# 2. PROFILE SECOND
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    avatar = models.ImageField(upload_to='avatars/', default='default.png', blank=True)
     bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=30, blank=True)
-
-    def __str__(self):
-        return f'{self.user.username} Profile'
+    location = models.CharField(max_length=50, blank=True)
+    tagline = models.CharField(max_length=100, blank=True)

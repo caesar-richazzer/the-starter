@@ -1,6 +1,7 @@
 # buzztier/urls.py (Main project URLs)
 from django.contrib import admin
 from django.urls import path, include
+from users import views 
 from django.contrib.auth import views as auth_views # Import auth views
 from users import views as user_views
 
@@ -12,4 +13,9 @@ urlpatterns = [
     # Login/Logout built-in paths
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'), 
-]
+    path('become-freelancer/', user_views.become_freelancer_view, name='become-freelancer'),
+    path('settings/', user_views.profile_settings_view, name='profile-settings'),
+    path('market/', views.market_view, name='market'),
+    path('work-seeking/', views.work_seeking_view, name='work-seeking'),
+
+ ]

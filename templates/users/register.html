@@ -1,42 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
-    <title>Register | Sokoni Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* Exact same styling as login for consistency */
-        :root { --bg-color: #FCFBF9; --primary-green: #1F4E3D; --border-light: #E2E8F0; --text-main: #1A202C; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 40px 20px; color: var(--text-main); box-sizing: border-box; }
-        .auth-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; max-width: 450px; border: 1px solid var(--border-light); }
-        .auth-card h2 { font-family: 'Merriweather', serif; color: var(--primary-green); text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
-        input[type="text"], input[type="password"], input[type="email"] { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 10px; border: 1px solid var(--border-light); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; box-sizing: border-box; }
-        input:focus { outline: none; border-color: var(--primary-green); }
-        .btn-submit { width: 100%; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 15px; }
-        .btn-submit:hover { background: #15382b; }
-        .auth-links { text-align: center; margin-top: 25px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 10px; }
-        .auth-links a { color: var(--primary-green); text-decoration: none; font-weight: 500; }
-        .auth-links a:hover { text-decoration: underline; }
-        .errorlist { color: #dc3545; list-style: none; padding: 0; font-size: 0.85rem; }
-        .helptext { font-size: 0.8rem; color: #718096; display: block; margin-bottom: 15px; }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <div class="auth-card">
-        <h2>Join Sokoni Pro</h2>
+{% block content %}
+<style>
+    /* LOCK VIEWPORT */
+    html, body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .auth-wrapper {
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 40px;
+        padding: 35px 45px; /* Tighter padding for register */
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 30px 60px rgba(186, 230, 253, 0.3);
+        text-align: center;
+    }
+
+    .crystal-title {
+        font-family: 'Merriweather', serif;
+        background: linear-gradient(180deg, #1e40af 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    /* TIGHTER INPUTS FOR REGISTRATION */
+    input {
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 100px;
+        font-size: 0.9rem;
+        color: #1e3a8a;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    label {
+        display: block; text-align: left; padding-left: 20px;
+        font-weight: 800; font-size: 0.7rem; color: #1e40af;
+        text-transform: uppercase; margin-bottom: 2px;
+    }
+
+    /* Django Help Text - Small & Clean */
+    .helptext {
+        display: block; font-size: 0.65rem; color: #94a3b8;
+        text-align: left; padding: 0 20px 8px; line-height: 1.2;
+    }
+
+    .btn-chrome {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(180deg, #ffffff 0%, #dbeafe 100%);
+        color: #1e40af !important;
+        border: 1px solid #fff;
+        border-radius: 100px;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1), inset 0 2px 2px white;
+    }
+
+    .auth-footer { margin-top: 20px; font-size: 0.85rem; color: #64748b; }
+    .auth-footer a { color: #2563eb; text-decoration: none; font-weight: 700; }
+
+    .form-content p { margin: 0; }
+</style>
+
+<div class="auth-wrapper">
+    <div class="glass-card">
+        <h2 class="crystal-title">Join Sokoni Pro</h2>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn-submit">Create Account</button>
+            <div class="form-content">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn-chrome">Create Account</button>
         </form>
-        
-        <div class="auth-links">
-            <span>Already have an account? <a href="{% url 'login' %}">Log In</a></span>
-            <a href="{% url 'home' %}" style="color: #4A5568; margin-top: 10px;">← Back to Home</a>
+        <div class="auth-footer">
+            Already a member? <a href="{% url 'login' %}">Sign In</a>
         </div>
     </div>
-
-</body>
-</html>
+</div>
+{% endblock %}

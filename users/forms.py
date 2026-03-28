@@ -1,11 +1,17 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import User, Profile
 
-# Make sure this name matches EXACTLY: UserRegisterForm
+# Form for registering a new user
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(required=True)
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
         fields = ['username', 'email']
+
+# Form for updating profile details (The one that was missing!)
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio', 'location', 'tagline']

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sokoni Pro | Tanzanian Business Intelligence{% endblock %}</title>
+    
+    <!-- Premium Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* 1. LIQUID THEME VARIABLES */
+        :root {
+            --water-bg: #f0f9ff;
+            --ocean-blue: #1e40af;
+            --crystal-white: rgba(255, 255, 255, 0.4);
+            --glass-shimmer: rgba(255, 255, 255, 0.8);
+            --chrome-btn: linear-gradient(180deg, #ffffff 0%, #dbeafe 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--water-bg);
+            color: #1e3a8a;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 2. DYNAMIC LIQUID BACKGROUND (Floating behind every page) */
+        .water-bg-blobs {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+            filter: blur(100px);
+            border-radius: 50%;
+            animation: moveBlobs 25s infinite alternate ease-in-out;
+        }
+        .blob-1 { top: -10%; left: -10%; opacity: 0.8; }
+        .blob-2 { bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(224, 242, 254, 1) 0%, transparent 70%); }
+        
+        @keyframes moveBlobs {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(150px, 150px) scale(1.1); }
+        }
+
+        /* 3. SHINING GLASS NAVBAR */
+        .navbar-container {
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background: var(--crystal-white);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(186, 230, 253, 0.3);
+        }
+
+        .logo-text {
+            font-family: 'Merriweather', serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--ocean-blue);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        /* 4. SHINING BUTTONS (HIGH VISIBILITY) */
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+
+        .btn-crystal {
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--ocean-blue);
+            padding: 12px 28px;
+            border-radius: 100px;
+            transition: 0.3s;
+        }
+
+        .btn-join {
+            background: var(--chrome-btn);
+            border: 1px solid #fff;
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.1), inset 0 2px 2px white;
+            color: var(--ocean-blue) !important;
+            padding: 12px 35px;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        /* 5. MAIN CONTENT */
+        main {
+            flex: 1;
+            padding-top: 40px; /* Offset for floating navbar */
+        }
+
+        /* 6. GLASSY FOOTER */
+        .footer-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid white;
+            padding: 50px 5%;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-glass p {
+            font-weight: 600;
+            color: var(--ocean-blue);
+            opacity: 0.7;
+        }
+
+        /* 7. FLASH MESSAGES */
+        .alert-glass {
+            max-width: 600px;
+            margin: 20px auto;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--ocean-blue);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Liquid Background Blobs -->
+    <div class="water-bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- SHARED NAVIGATION -->
+<nav class="navbar">
+    <a href="{% url 'home' %}" class="logo-text">Sokoni Pro</a>
+
+    <div class="nav-links">
+        {% if user.is_authenticated %}
+            <!-- ONLY SEEN AFTER LOGIN -->
+            <a href="{% url 'market' %}" class="btn-crystal">Marketplace</a>
+
+            {% if user.is_freelancer %}
+                <a href="{% url 'work-seeking' %}" class="btn-crystal">Find Work</a>
+                <a href="{% url 'seller-dashboard' %}" class="btn-crystal btn-join">Dashboard</a>
+            {% else %}
+                <!-- Client sees "Home" (Post a Need) inside the Market -->
+                <a href="#" class="btn-crystal">My Orders</a>
+            {% endif %}
+
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-crystal">Logout</button>
+            </form>
+        {% else %}
+            <!-- ONLY SEEN BEFORE LOGIN (Landing Page) -->
+            <a href="{% url 'login' %}" class="btn-crystal">Login</a>
+            <a href="{% url 'register' %}" class="btn-crystal btn-join">Join Now</a>
+        {% endif %}
+    </div>
+</nav>
+    <!-- FLASH MESSAGES -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-glass">
+                <i class="fas fa-check-circle"></i> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- CONTENT HOLE -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- SHARED FOOTER -->
+    <footer class="footer-glass">
+        <p>© 2024 Sokoni Pro - The Crystal Intelligence Marketplace</p>
+        <div style="margin-top:15px; font-size:1.2rem; color:var(--ocean-blue); opacity:0.5; display:flex; justify-content:center; gap:20px;">
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-linkedin"></i>
+            <i class="fab fa-twitter"></i>
+        </div>
+    </footer>
+
+</body>
+</html>
